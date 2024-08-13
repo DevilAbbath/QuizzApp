@@ -10,22 +10,30 @@ opciones = {'basicas': [1,2,3],
 ###############################################
 
 def choose_q(dificultad):
-    #escoger preguntas por dificultad
-    preguntas = 
+    """
+    Args:
+    dificultad (str): Nivel de dificultad.
+
+    Returns:
+    tuple: Enunciado y alternativas mezcladas.
+    """
+    pool = p.pool_preguntas[dificultad]
+    preguntas_disponibles = list(pool.keys())
     
-    # usar opciones desde ambiente global
-    global 
-    # escoger una pregunta
-    n_elegido = 
-    # eliminarla del ambiente global para no escogerla de nuevo
+    if not preguntas_disponibles:
+        raise ValueError("No hay más preguntas disponibles.")
     
+    n_elegido = random.choice(preguntas_disponibles)
+    pregunta = pool.get(n_elegido)
+    if pregunta is None:
+        raise ValueError(f"La pregunta '{n_elegido}' no está disponible.")
     
-    # escoger enunciado y alternativas mezcladas
-    pregunta = 
-    alternativas = 
+    del pool[n_elegido]
     
+    alternativas = shuffle_alt(pregunta)
     
     return pregunta['enunciado'], alternativas
+
 
 if __name__ == '__main__':
     # si ejecuto el programa, las preguntas cambian de orden, pero nunca debieran repetirse
